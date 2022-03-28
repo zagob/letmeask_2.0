@@ -1,0 +1,6 @@
+# MELHORIAS NA APLICAÇÃO
+- responsividade []
+- Tema dark []
+- PWA []
+- Styled Components []
+

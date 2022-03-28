@@ -5,7 +5,7 @@ import logoImg from "../assets/images/logo.svg";
 import { Button } from "../components/Button";
 import { useAuth } from "../hooks/useAuth";
 import { database, push, ref } from "../services/firebase";
-import "../styles/auth.scss";
+
 
 export function NewRoom() {
   const navigate = useNavigate();
@@ -18,8 +18,6 @@ export function NewRoom() {
     if (newRoom.trim() === "") {
       return;
     }
-
-    // const roomRef = ref(database, "rooms");
 
     const firebaseRoom = await push(ref(database, "rooms"), {
       title: newRoom,
@@ -38,7 +36,7 @@ export function NewRoom() {
           src={illustrationImg}
           alt="Ilustração simbolizando perguntas e respostas"
         />
-        <strong>Cre salas de Q&amp;A ao-vivo</strong>
+        <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
       <main>

@@ -1,13 +1,14 @@
 import { FormEvent, useState } from "react";
-import { useParams } from "react-router-dom";
-import logoImg from "../assets/images/logo.svg";
-import { Button } from "../components/Button";
-import { Question } from "../components/Question";
-import { RoomCode } from "../components/RoomCode";
-import { useAuth } from "../hooks/useAuth";
-import { useRoom } from "../hooks/useRoom";
-import { database, push, ref, remove } from "../services/firebase";
-import "../styles/room.scss";
+import { useNavigate, useParams } from "react-router-dom";
+import logoImg from "../../assets/images/logo.svg";
+import { Button } from "../../components/Button";
+import { Question } from "../../components/Question";
+import { RoomCode } from "../../components/RoomCode";
+import { useAuth } from "../../hooks/useAuth";
+import { useRoom } from "../../hooks/useRoom";
+import { database, push, ref, remove } from "../../services/firebase";
+import { PageRoom } from './styles';
+
 
 type RoomProps = {
   id: string;
@@ -15,6 +16,7 @@ type RoomProps = {
 
 export function Room() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const params = useParams<RoomProps>();
   const roomId = params.id;
   const { questions, title } = useRoom(roomId);
@@ -67,10 +69,10 @@ export function Room() {
   }
 
   return (
-    <div id="page-room">
+    <PageRoom>
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask" />
+          <img src={logoImg} alt="Letmeask" onClick={() => navigate('/')} />
           <RoomCode code={roomId} />
         </div>
       </header>
@@ -150,6 +152,6 @@ export function Room() {
           })}
         </div>
       </main>
-    </div>
+    </PageRoom>
   );
 }

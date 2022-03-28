@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   auth,
   GoogleAuthProvider,
@@ -19,6 +20,7 @@ type User = {
 
 type AuthContextType = {
   user: User | undefined;
+  test: string;
   signInWithGoogle: () => Promise<void>;
   signOutAuthenticate: () => Promise<void>;
 };
@@ -26,8 +28,9 @@ type AuthContextType = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User>();
-
+  const [test, setTest] = useState('123')
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -73,11 +76,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   async function signOutAuthenticate() {
     await signOut(auth);
     setUser(undefined);
+    navigate("/");
   }
 
   return (
     <AuthContext.Provider
-      value={{ user, signInWithGoogle, signOutAuthenticate }}
+      value={{ user, signInWithGoogle, signOutAuthenticate, test }}
     >
       {children}
     </AuthContext.Provider>

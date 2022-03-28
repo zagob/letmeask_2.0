@@ -1,4 +1,6 @@
-#page-auth {
+import styled from "styled-components";
+
+export const PageAuth = styled.div`
   display: flex;
   align-items: stretch;
   height: 100vh;
@@ -55,9 +57,9 @@
     }
 
     h2 {
-        font-size: 24px;
-        margin: 64px 0 24px;
-        font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      margin: 64px 0 24px;
+      font-family: "Poppins", sans-serif;
     }
 
     form {
@@ -140,4 +142,4 @@
       margin-left: 16px;
     }
   }
-}
+`;

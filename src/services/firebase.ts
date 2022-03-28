@@ -1,21 +1,28 @@
 import {
   getAuth,
   GoogleAuthProvider,
-  onAuthStateChanged, signInWithPopup, signOut
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut
 } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import * as fire from 'firebase/database';
 import {
+  child,
   get,
   getDatabase,
   off,
   onValue,
   push,
+  query,
   ref,
   remove,
+
   set,
   update
 } from "firebase/database";
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -40,7 +47,9 @@ export {
   database,
   ref,
   get,
+  query,
   set,
+  child,
   signOut,
   onValue,
   update,
@@ -48,4 +57,5 @@ export {
   push,
   remove,
   onAuthStateChanged,
+  fire,
 };

@@ -1,23 +1,25 @@
 import { FormEvent, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import googleIconImg from "../assets/images/google-icon.svg";
-import illustrationImg from "../assets/images/illustration.svg";
-import logoImg from "../assets/images/logo.svg";
-import { Button } from "../components/Button";
-import { useAuth } from "../hooks/useAuth";
-import { database, get, ref } from "../services/firebase";
-import "../styles/auth.scss";
+import googleIconImg from "../../assets/images/google-icon.svg";
+import illustrationImg from "../../assets/images/illustration.svg";
+import logoImg from "../../assets/images/logo.svg";
+import { Button } from "../../components/Button";
+import { useAuth } from "../../hooks/useAuth";
+import { useDarkMode } from "../../hooks/useDarkMode";
+import { database, get, ref } from "../../services/firebase";
+import { PageAuth } from "./styles";
 
 export function Home() {
   const navigate = useNavigate();
-  const { user, signInWithGoogle, signOutAuthenticate } = useAuth();
+  const { toggle, setToggle } = useDarkMode();
+  const { user, signInWithGoogle } = useAuth();
   const [roomCode, setRoomCode] = useState("");
-  
+
   async function handleCreateRoom() {
     if (!user) {
       await signInWithGoogle();
     }
-    navigate("/rooms/new");
   }
 
   async function handleJoinRoom(event: FormEvent) {
@@ -30,29 +32,37 @@ export function Home() {
     const roomRef = await get(ref(database, `/rooms/${roomCode}`));
 
     if (!roomRef.exists()) {
-      return alert("Room does not exists");
+      return toast.error("Room does not exists");
     }
 
     if (roomRef.val().endedAt) {
-      return alert("Room already closed");
+      return toast.error("Room already closed");
     }
 
     navigate(`room/${roomCode}`);
   }
 
   return (
-    <div id="page-auth">
+    <PageAuth>
+      <Toaster />
       <aside>
         <img
           src={illustrationImg}
           alt="Ilustração simbolizando perguntas e respostas"
         />
-        <strong>Cre salas de Q&amp;A ao-vivo</strong>
+        <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
       <main>
-        <button onClick={async () => await signOutAuthenticate()}>Sair</button>
         <div className="main-content">
+          <div>
+            {toggle === "light" && (
+              <button onClick={() => setToggle("dark")}>dark</button>
+            )}
+            {toggle === "dark" && (
+              <button onClick={() => setToggle("light")}>light</button>
+            )}
+          </div>
           <img src={logoImg} alt="Letmeask" />
           {!user && (
             <button onClick={handleCreateRoom} className="create-room">
@@ -68,10 +78,13 @@ export function Home() {
               onChange={(event) => setRoomCode(event.target.value)}
               value={roomCode}
             />
-            <Button type="submit">Entrar na sala</Button>
+            <Button type="submit" disabled={roomCode.length === 0}>
+              Entrar na sala
+            </Button>
+            <Button style={{ background: 'var(--pink)' }} onClick={() => navigate('/available/rooms')}>Salas disponíveis</Button>
           </form>
         </div>
       </main>
-    </div>
+    </PageAuth>
   );
 }

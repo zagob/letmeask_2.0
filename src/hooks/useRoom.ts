@@ -41,6 +41,7 @@ export function useRoom(roomId?: string) {
 
   useEffect(() => {
     const roomRef = ref(database, `rooms/${roomId}`);
+    
     onValue(roomRef, (room) => {
       const databaseRoom = room.val();
       const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
@@ -56,7 +57,7 @@ export function useRoom(roomId?: string) {
             likeCount: Object.values(value.likes ?? {}).length,
             likeId: Object.entries(value.likes ?? {}).find(
               ([key, like]) => like.authorId === user?.id
-            )?.[0]
+            )?.[0],
           };
         }
       );

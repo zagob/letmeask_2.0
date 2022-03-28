@@ -1,14 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
-import answerImg from "../assets/images/answer.svg";
-import checkImg from "../assets/images/check.svg";
-import deleteImg from "../assets/images/delete.svg";
-import logoImg from "../assets/images/logo.svg";
-import { Button } from "../components/Button";
-import { Question } from "../components/Question";
-import { RoomCode } from "../components/RoomCode";
-import { useRoom } from "../hooks/useRoom";
-import { database, ref, remove, update } from "../services/firebase";
-import "../styles/room.scss";
+import answerImg from "../../assets/images/answer.svg";
+import checkImg from "../../assets/images/check.svg";
+import deleteImg from "../../assets/images/delete.svg";
+import logoImg from "../../assets/images/logo.svg";
+import { Button } from "../../components/Button";
+import { Question } from "../../components/Question";
+import { RoomCode } from "../../components/RoomCode";
+import { useRoom } from "../../hooks/useRoom";
+import { database, ref, remove, update } from "../../services/firebase";
+import { PageRoom } from './styles';
+
 
 type RoomProps = {
   id: string;
@@ -47,10 +48,10 @@ export function AdminRoom() {
   }
 
   return (
-    <div id="page-room">
+    <PageRoom id="page-room">
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask" />
+          <img src={logoImg} alt="Letmeask" onClick={() => navigate('/')} />
           <div>
             <RoomCode code={roomId} />
             <Button isOutlined onClick={handleEndRoom}>
@@ -106,6 +107,6 @@ export function AdminRoom() {
           })}
         </div>
       </main>
-    </div>
+    </PageRoom>
   );
 }
